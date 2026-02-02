@@ -4,10 +4,7 @@ import numpy as np
 
 st.title('業種別給与額の比較')
 
-df=pd.read_csv('FEH_00351000_260131142825.csv', encoding='shift_jis', skiprows=1)
-
-def clean_and_convert(series):
-    return pd.to_numeric(series.astype(str).str.replace(',', ''), errors='coerce')
+df=pd.read_csv('FEH_00351000_260131142825.csv', encoding='shift_jis')
 
 
 #サイドバー

@@ -68,3 +68,6 @@ elif menu=='データ表示・グラフ表示':
             st.dataframe(df_item, width=800, height=400)
         elif option=='グラフ':
             st.bar_chart(df_item,sort=False)
+    
+        st.subheader('グラフの説明')
+        st.write('2014年～2024年では常に「電気・ガス・熱供給・水道業」が最も高い給与額を示している。しかし、給与所得者数に関しては「電気・ガス・熱供給・水道業」が最も少ない。これは、この業種が高収入である一方で、従業員数が少ないことを示している。')

@@ -46,12 +46,14 @@ elif menu=='データ表示・グラフ表示':
             df_item=df[['業種','給与所得者数(年間月平均)【人】']]
 
         df_item.set_index('業種', inplace=True)
-        df_item.iloc[:, 0] = (
-        df_item.iloc[:, 0]
+        target_col = df_item.columns[0]
+        df_filtered = df_item.copy()
+        df_filtered[target_col] = (
+        df_filtered[target_col]
         .astype(str)
-        .str.replace(',', '', regex=False)
-        .astype(float)
-    )
+        .str.replace(',', '')
+        .pipe(pd.to_numeric, errors='coerce')
+        )
 
         st.write(f'### {year}年の全業種平均{item}データ')
 

@@ -34,7 +34,7 @@ if menu=='アプリの説明':
         with col2:
              with st.container():
                   st.subheader('アプリの目的')
-                  st.write('このアプリは、業種別の給与額や給与所得者数の傾向を視覚的に把握し、分析することを目的としています。')
+                  st.write('このアプリは、業種別の給与額や給与所得者数の傾向を視覚的に把握し、分析することを目的としています。また、年代別の比較も行うことで、時間的な変化も捉えることを目的としています。')
 
         with col3:
                 with st.container():
@@ -44,7 +44,6 @@ if menu=='アプリの説明':
 
 #データ表示・グラフ表示ページ    
 elif menu=='データ表示・グラフ表示':
-        # 選択された年のデータを抽出
         df_current = df[df['年']==year].copy()
 
         if item=='給与額':
@@ -53,7 +52,7 @@ elif menu=='データ表示・グラフ表示':
             df_item = df_current[['業種','給与所得者数(年間月平均)【人】']]
 
         df_item.set_index('業種', inplace=True)
-        # 数値変換処理
+
         df_item.iloc[:, 0] = (
             df_item.iloc[:, 0]
             .astype(str)
@@ -63,13 +62,10 @@ elif menu=='データ表示・グラフ表示':
 
         st.write(f'### {year}年の全業種平均{item}データ')
 
-        # 当年度の平均値
         avg_val = df_item.iloc[:, 0].mean()
 
-        # 前年度比（delta）の計算
         delta_val = None
         try:
-            # 「2024年」から「2024」を取り出して1を引く
             current_year_num = int(year.replace('年', ''))
             prev_year_str = f"{current_year_num - 1}年"
             
@@ -80,7 +76,6 @@ elif menu=='データ表示・グラフ表示':
                 else:
                     prev_col = '給与所得者数(年間月平均)【人】'
                 
-                # 前年度の数値を数値化して平均を出す
                 prev_series = df_prev[prev_col].astype(str).str.replace(',', '', regex=False).astype(float)
                 avg_prev = prev_series.mean()
                 delta_val = avg_val - avg_prev
@@ -96,7 +91,6 @@ elif menu=='データ表示・グラフ表示':
             value_text = f"{avg_val:,.0f} 人"
             delta_text = f"{delta_val:,.0f} 人" if delta_val is not None else None
 
-        # metricの表示
         st.metric(label=label_text, value=value_text, delta=delta_text)
 
         if option=='表':
